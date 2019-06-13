@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+<div class="box"></div>
+<script>
+    window.onload = function () {
+        var box = document.querySelector(".box");
+        var startX = 0;
+        var distanceX = 0;
+        var isMove = false;
+        var bindSwipeEvent = function (dom, leftCallback, rightCallback) {
+            dom.addEventListener('touchstart', function (e) {
+                startX = e.touches[0].clientX;
+            });
+            dom.addEventListener('touchmove', function (e) {
+                var moveX = e.touches[0].clientX;
+                distanceX = moveX - startX;
+                isMove = true;
+            });
+            dom.addEventListener('touchend', function (e) {
+
+                if (isMove && (Math.abs(distanceX) > 50)) {
+                    if (distanceX > 0) {
+                        rightCallback && rightCallback.call(this, e);
+                    } else {
+                        leftCallback && leftCallback.call(this, e);
+                    }
+                }
+                /*重置参数*/
+                isMove = false;
+                startX = 0;
+                distanceX = 0;
+            });
+        };
+        bindSwipeEvent(box,function (e) {
+            console.log(this);
+            console.log(e);
+            console.log("left swipe");
+
+        },function (e) {
+            console.log(this);
+            console.log(e);
+            console.log("right swipe");
+        });
+    };
+</script>
+</body>
+</html>

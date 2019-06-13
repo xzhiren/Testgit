@@ -1,6 +1,7 @@
 window.onload = function () {
     search();
     banner();
+    downTime();
 };
 
 var search = function () {
@@ -89,7 +90,8 @@ var banner = function () {
      * */
     var startX = 0;
     var distanceX = 0;
-    var isMove = false;/*判定是否滑动的全局变量*/
+    var isMove = false;
+    /*判定是否滑动的全局变量*/
 
     imagesBox.addEventListener('touchstart', function (e) {
         clearInterval(timer);
@@ -111,15 +113,15 @@ var banner = function () {
     });
     imagesBox.addEventListener('touchend', function () {
         /*只有移动了才进入这一步*/
-        if(isMove){
+        if (isMove) {
             if (Math.abs(distanceX) < width / 3) {
                 addTransition();
                 setTranslateX(-index * width);
             }
-            else{
-                if(distanceX>0){
+            else {
+                if (distanceX > 0) {
                     index--;
-                }else if(distanceX<0){
+                } else if (distanceX < 0) {
                     index++;
 
                 }
@@ -143,5 +145,25 @@ var banner = function () {
 
 };
 var downTime = function () {
+    var time = 2 * 60 * 60;
+    var spans = document.querySelectorAll(".time span");
+    var timer = setInterval(function () {
+        time--;
+        var h =Math.floor(time / 3600) ;
+        var m = Math.floor(time % 3600 / 60);
+        var s = Math.floor(time % 60);
 
+        spans[0].innerHTML = Math.floor(h / 10);
+        spans[1].innerHTML = h % 10;
+
+        spans[3].innerHTML = Math.floor(m / 10);
+        spans[4].innerHTML = m % 10;
+
+        spans[6].innerHTML = Math.floor(s / 10);
+        spans[7].innerHTML = s % 10;
+
+        if (time <= 0) {
+            clearInterval(timer);
+        }
+    }, 1000);
 };
