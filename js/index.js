@@ -29,18 +29,19 @@ var search = function () {
 };
 var banner = function () {
     /*
-    * 1.自动轮播且无缝
-    * 2.点随着轮播滚动
-    * 3.轮播
-    * 4.当手滑动超过图片1/3宽度自动向左或向右滚动
-    * 5.当手滑动不超过图片1/3宽度，放开时自动恢复到原位置
-    * */
+     * 1.自动轮播且无缝
+     * 2.点随着轮播滚动
+     * 3.轮播
+     * 4.当手滑动超过图片1/3宽度自动向左或向右滚动
+     * 5.当手滑动不超过图片1/3宽度，放开时自动恢复到原位置
+     * */
     var banner = document.querySelector(".jd_banner");
     var width = banner.offsetWidth;
     var imagesBox = banner.querySelector("ul:first-child");
     var pointsBox = banner.querySelector("ul:last-child");
     var points = pointsBox.querySelectorAll("li");
-    var index = 1;/*索引值，通过这个值来判断向左滚动几张图片*/
+    var index = 1;
+    /*索引值，通过这个值来判断向左滚动几张图片*/
     var addTransition = function () {
 
         imagesBox.style.transition = "all 0.3s";
@@ -51,36 +52,95 @@ var banner = function () {
         imagesBox.style.webkitTransition = "none";
     };
     var setTranslateX = function (translateX) {
-        imagesBox.style.transform = "translateX("+(translateX)+"px)";
-        imagesBox.style.webkitTransform = "translateX("+(translateX)+"px)";
+        imagesBox.style.transform = "translateX(" + (translateX) + "px)";
+        imagesBox.style.webkitTransform = "translateX(" + (translateX) + "px)";
     };
     var timer = setInterval(function () {
-            index++;
-            addTransition();
-            setTranslateX(-index*width);
+        index++;
+        addTransition();
+        setTranslateX(-index * width);
 
-    },3000);
+    }, 3000);
     /*
-    * 需要等最后一张动画结束时去做判断*/
-    imagesBox.addEventListener("transitionend",function () {
-        if(index>=9){
+     * 需要等最后一张动画结束时去做判断*/
+    imagesBox.addEventListener("transitionend", function () {
+        if (index >= 9) {
             index = 1;
             removeTransition();
-            setTranslateX(-index*width);
+            setTranslateX(-index * width);
         }
         /*滑动的时候也需要无缝*/
-        else if(index<=0){
+        else if (index <= 0) {
             index = 8;
-           removeTransition();
-            setTranslateX(-index*width);
+            removeTransition();
+            setTranslateX(-index * width);
         }
-        /*banner图片index 范围在 1-8 ，而i在0-7 */
-        for (var i = 0; i < points.length; i++) {
-             points[i].classList.remove("now");
-        }
-            points[index-1].classList.add("now");
+        setPoint();
 
     });
+    var setPoint = function () {
+        for (var i = 0; i < points.length; i++) {
+            /*banner图片index 范围在 1-8 ，而i在0-7 */
+            points[i].classList.remove("now");
+        }
+        points[index - 1].classList.add("now");
+    };
+    /*绑定事件
+     * */
+    var startX = 0;
+    var distanceX = 0;
+    var isMove = false;/*判定是否滑动的全局变量*/
+
+    imagesBox.addEventListener('touchstart', function (e) {
+        clearInterval(timer);
+        /*获取手指开始所在的X轴位置*/
+        startX = e.touches[0].clientX;
+    });
+    imagesBox.addEventListener('touchmove', function (e) {
+        /*获取移动后的手指X轴位置*/
+        var moveX = e.touches[0].clientX;
+        /*手指移动的距离（不区分正负）*/
+        distanceX = moveX - startX;
+        /*banner移动的距离 = 当前定位+手指移动的距离*/
+        var translateX = -index * width + distanceX;
+        /*瞬间到一个位置分两步：清除过渡 做位移*/
+        removeTransition();
+        setTranslateX(translateX);
+        /*移动了*/
+        isMove = true;
+    });
+    imagesBox.addEventListener('touchend', function () {
+        /*只有移动了才进入这一步*/
+        if(isMove){
+            if (Math.abs(distanceX) < width / 3) {
+                addTransition();
+                setTranslateX(-index * width);
+            }
+            else{
+                if(distanceX>0){
+                    index--;
+                }else if(distanceX<0){
+                    index++;
+
+                }
+                addTransition();
+                setTranslateX(-index * width);
+
+            }
+        }
+        /*参数重置*/
+        startX = 0;
+        distanceX = 0;
+        isMove = false;
+        clearInterval(timer);
+        timer = setInterval(function () {
+            index++;
+            addTransition();
+            setTranslateX(-index * width);
+        }, 3000);
+
+    });
+
 };
 var downTime = function () {
 
