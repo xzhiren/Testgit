@@ -1,0 +1,132 @@
+html,body{
+    height:100%;
+}
+.jd_layout{
+    width:100%;
+    height:100%;
+}
+.jd_topBar{
+    position:absolute;
+    left: 0;
+    top:0;
+    width:100%;
+    height:45px;
+    border-bottom: 1px solid #ccc;
+    background: url("../images/header-bg.png") 0 0/1px 44px ;
+}
+.jd_topBar .icon_back{
+    position:absolute;
+    top:0;
+    left:0;
+    width:40px;
+    height: 44px;
+    background-position: -12px 12px;
+    padding:12px 10px;
+    background-origin: border-box;
+    background-clip: content-box;
+}
+.jd_topBar .icon_menu{
+
+    position:absolute;
+    top:0;
+    right:0;
+    width:40px;
+    height: 44px;
+    background-position: -50px 12px;
+    padding:12px 10px;
+    background-origin: border-box;
+    background-clip: content-box;
+
+}
+.jd_topBar form{
+    width: 100%;
+    padding: 7px 40px;
+    height:30px;
+}
+.jd_topBar form input{
+    width:100%;
+    height:30px;
+    border-radius: 4px;
+    padding-left:10px;
+    border:1px solid #ddd;
+}
+.jd_main{
+    width:100%;
+    height:100%;
+    padding-top:45px;
+}
+.jd_main .jd_cateLeft{
+    background-color: pink;
+    width:90px;
+    height:100%;
+    float:left;
+}
+.jd_cateLeft ul{
+    width: 90px;
+    background-color: #f3f4f5;
+
+}
+.jd_cateLeft ul li{
+    width: 90px;
+    height:50px;
+    text-align: center;
+    line-height: 50px;
+    border-right:1px solid #ccc;
+    border-bottom:1px solid #ccc;
+
+}
+.jd_cateLeft ul li.now{
+
+    background-color: #fff;
+    border-right:none;
+}
+.jd_cateLeft ul li.now a{
+    color:red;
+}
+.jd_cateLeft ul li a{
+    display: block;
+    width:100%;
+    height:50px;
+    font-size:12px;
+}
+.jd_main .jd_cateRight{
+    height:100%;
+    overflow: hidden;/*让这个元素绝缘，既不让其他浮动元素影响自己，也不让自己的浮动影响其他*/
+}
+.jd_cateRight_box .banner{
+    display: block;
+    width:100%;
+    padding:0 10px;
+    margin-top: 10px;
+}
+.jd_cateRight_box .banner img{
+    display: block;
+    width: 100%;
+}
+.jd_cateRight_box h3{
+    padding:10px 0 10px 10px;
+    font-size:12px;
+}
+.jd_cateRight_box ul{
+    width:100%;
+    padding:0 10px;
+}
+.jd_cateRight_box ul li{
+    width:33.333%;
+    float:left;
+    text-align: center;
+}
+.jd_cateRight_box ul li a{
+    display: block;
+    width:100%;
+}
+.jd_cateRight_box ul li a p{
+    padding:5px 0;
+    font-size:12px;
+}
+.jd_cateRight_box ul li a img{
+    display: block;
+    width: 62px;
+    height: 62px;
+    margin: 0 auto;
+}
